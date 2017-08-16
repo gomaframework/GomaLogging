@@ -12,7 +12,7 @@ defined("IN_GOMA") or die();
  * @license LGPL http://www.gnu.org/copyleft/lesser.html see 'license.txt'
  * @author 	Goma-Team
  */
-class Logging
+class Logger
 {
     const LOG_LEVEL_LOG = 1;
     const LOG_LEVEL_ERROR = 2;
