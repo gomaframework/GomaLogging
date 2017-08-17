@@ -14,7 +14,7 @@ defined("IN_GOMA") or die();
  * @author 	Goma-Team
  */
 
-define("LOG_FOLDER", is_string(GomaENV::getProjectLevelComposerArray()["log_folder"]) ? GomaENV::getProjectLevelComposerArray()["log_folder"] : "logs");
+define("LOG_FOLDER", isset(GomaENV::getProjectLevelComposerArray()["log_folder"]) ? GomaENV::getProjectLevelComposerArray()["log_folder"] : "logs");
 
 if(!is_dir(ROOT . LOG_FOLDER)) {
     mkdir(ROOT . LOG_FOLDER);

@@ -2,6 +2,8 @@
 
 namespace Goma\Logging;
 
+use Goma\ENV\GomaENV;
+
 defined("IN_GOMA") or die();
 
 /**
@@ -58,12 +60,12 @@ class Logger
         }
 
         if($level & self::LOG_LEVEL_PROFILE) {
-            self::putLogFile(self::getLogFile("profile"), $info);
+            self::putLogFile(self::getLogFile("profile", true), $info);
             $logged = true;
         }
 
         if($level & self::LOG_LEVEL_SLOW_QUERY) {
-            self::putLogFile(self::getLogFile("slow_queries", true), $info);
+            self::putLogFile(self::getLogFile("slow_queries"), $info);
             $logged = true;
         }
 
@@ -103,7 +105,7 @@ class Logger
      */
     protected static function getLogFile($folder, $noAppend = false) {
         if(!isset(self::$logCache[$folder])) {
-            $logFolder = ROOT . GOMA_DATADIR . "/" . LOG_FOLDER . "/" . $folder . "/" . date("m-d-y") . "/";
+            $logFolder = GomaENV::getDataDirectory() . LOG_FOLDER . "/" . $folder . "/" . date("m-d-y") . "/";
 
             if (!is_dir($logFolder)) {
                 if (!mkdir($logFolder, 0777, true)) {
@@ -112,11 +114,11 @@ class Logger
             }
 
             $noAppendFileName = $noAppend ? date("H_i_s") . "_" : "";
-            $file = $folder . $noAppendFileName . "1.log";
+            $file = $logFolder . $noAppendFileName . "1.log";
             $i = 1;
             while (file_exists($folder . $i . ".log") && ($noAppend || filesize($file) > static::$fileSizeLimit)) {
                 $i++;
-                $file = $folder . $noAppendFileName . "_" . $i . ".log";
+                $file = $logFolder . $noAppendFileName . "_" . $i . ".log";
             }
 
             self::$logCache[$folder] = $file;

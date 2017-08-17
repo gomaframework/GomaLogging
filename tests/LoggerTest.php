@@ -2,6 +2,7 @@
 
 namespace Goma\Logging\Test;
 
+use Goma\ENV\GomaENV;
 use Goma\Logging\Logger;
 
 defined("IN_GOMA") or die();
@@ -27,9 +28,9 @@ class LoggerTest extends \GomaUnitTest
      * Tests if logging creates file. Log-Level = LOG_LEVEL_LOG
      */
     public function testLog() {
-        $expectedFile = ROOT . LOG_FOLDER . "/log/" . date("m-d-y") . "/1.log";
+        $expectedFile = GomaENV::getDataDirectory() . LOG_FOLDER . "/log/" . date("m-d-y") . "/1.log";
         if(is_file($expectedFile)) {
-            unlink(is_file($expectedFile));
+            unlink($expectedFile);
         }
 
         Logger::log("Test");
@@ -41,9 +42,9 @@ class LoggerTest extends \GomaUnitTest
      * Tests if error-logging creates file. . Log-Level = LOG_LEVEL_ERROR
      */
     public function testErrorLog() {
-        $expectedFile = ROOT . LOG_FOLDER . "/error/" . date("m-d-y") . "/1.log";
+        $expectedFile = GomaENV::getDataDirectory() . LOG_FOLDER . "/error/" . date("m-d-y") . "/1.log";
         if(is_file($expectedFile)) {
-            unlink(is_file($expectedFile));
+            unlink($expectedFile);
         }
 
         Logger::log("Test", Logger::LOG_LEVEL_ERROR);
@@ -55,9 +56,9 @@ class LoggerTest extends \GomaUnitTest
      * Tests if slow-query-logging creates file. . Log-Level = LOG_LEVEL_SLOW_QUERY
      */
     public function testSlowQueryLog() {
-        $expectedFile = ROOT . LOG_FOLDER . "/slow_queries/" . date("m-d-y") . "/1.log";
+        $expectedFile = GomaENV::getDataDirectory() . LOG_FOLDER . "/slow_queries/" . date("m-d-y") . "/1.log";
         if(is_file($expectedFile)) {
-            unlink(is_file($expectedFile));
+            unlink($expectedFile);
         }
 
         Logger::log("Test", Logger::LOG_LEVEL_SLOW_QUERY);
@@ -69,9 +70,9 @@ class LoggerTest extends \GomaUnitTest
      * Tests if profile-logging creates file. . Log-Level = LOG_LEVEL_PROFILE
      */
     public function testProfileLog() {
-        $expectedFile = ROOT . LOG_FOLDER . "/profile/" . date("m-d-y") . "/".date("H_i_s")."_1.log";
+        $expectedFile = GomaENV::getDataDirectory() . LOG_FOLDER . "/profile/" . date("m-d-y") . "/".date("H_i_s")."_1.log";
         if(is_file($expectedFile)) {
-            unlink(is_file($expectedFile));
+            unlink($expectedFile);
         }
 
         Logger::log("Test", Logger::LOG_LEVEL_PROFILE);
@@ -83,9 +84,9 @@ class LoggerTest extends \GomaUnitTest
      * Tests if debug-logging creates file. . Log-Level = LOG_LEVEL_DEBUG
      */
     public function testDebugLog() {
-        $expectedFile = ROOT . LOG_FOLDER . "/debug/" . date("m-d-y") . "/".date("H_i_s")."_1.log";
+        $expectedFile = GomaENV::getDataDirectory() . LOG_FOLDER . "/debug/" . date("m-d-y") . "/".date("H_i_s")."_1.log";
         if(is_file($expectedFile)) {
-            unlink(is_file($expectedFile));
+            unlink($expectedFile);
         }
 
         Logger::log("Test", Logger::LOG_LEVEL_DEBUG);
