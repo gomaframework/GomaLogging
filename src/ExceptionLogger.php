@@ -8,12 +8,6 @@ use Throwable;
 
 defined("IN_GOMA") or die();
 
-if(!interface_exists(ExceptionHandler::class)) {
-    interface LoggingExceptionHandler {}
-} else {
-    interface LoggingExceptionHandler extends ExceptionHandler {}
-}
-
 /**
  * Extension for ExceptionManager to enable Logging for that.
  *
@@ -26,7 +20,7 @@ class ExceptionLogger implements LoggingExceptionHandler
 {
     /**
      * Wrapper for isDeveloperPresentable.
-     * Using ExceptionHandler is existing, else it just returns true.
+     * Using ExceptionHandler is existing, else it checks for property $isDeveloperPresentable or returns true.
      *
      * @param Throwable $exception
      * @return bool
@@ -36,7 +30,7 @@ class ExceptionLogger implements LoggingExceptionHandler
             return ExceptionHandler::isDeveloperPresentableException($exception);
         }
 
-        return true;
+        return isset($exception->isDeveloperPresentable) ? $exception->isDeveloperPresentable : true;
     }
 
     /**
@@ -106,5 +100,15 @@ class ExceptionLogger implements LoggingExceptionHandler
     public static function isDeveloperPresentableException($exception)
     {
         return null;
+    }
+
+    /**
+     * Alias for handleException.
+     *
+     * @param Throwable $exception
+     */
+    public static function logException($exception)
+    {
+        self::handleException($exception);
     }
 }

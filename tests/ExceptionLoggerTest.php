@@ -18,16 +18,16 @@ defined("IN_GOMA") or die();
 class ExceptionLoggerTest extends \GomaUnitTest
 {
     /**
-     * Tests if logging of an ignorable exception is not writing a file.
+     * Tests if logging of an not developer presentable exception is not writing a file.
      */
-    public function testIgnorable() {
+    public function testIsNotDeveloperPresentable() {
         $expectedFile = GomaENV::getDataDirectory() . LOG_FOLDER . "/debug/" . date("m-d-y") . "/".date("H_i_s")."_1.log";
         if(is_file($expectedFile)) {
             unlink($expectedFile);
         }
 
         $exception = new \Exception();
-        $exception->isIgnorable = true;
+        $exception->isDeveloperPresentable = false;
 
         ExceptionLogger::logException($exception);
         $this->assertFalse(is_file($expectedFile));
