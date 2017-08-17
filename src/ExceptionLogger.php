@@ -3,58 +3,75 @@
 namespace Goma\Logging;
 
 use Goma\ENV\GomaENV;
+use Goma\Error\ExceptionHandler;
 use Throwable;
 
 defined("IN_GOMA") or die();
 
-/**
- * Extension for ExceptionManager to enable Logging for that.
- *
- * @package	goma/logging
- * @link 	http://goma-cms.org
- * @license LGPL http://www.gnu.org/copyleft/lesser.html see 'license.txt'
- * @author 	Goma-Team
- */
-class ExceptionLogger
-{
+if(interface_exists(ExceptionHandler::class)) {
     /**
-     * Logger for Exceptions.
-     * @param Throwable $exception
-     */
-    public static function logException(Throwable $exception) {
-        if(isset($exception->isIgnorable) && $exception->isIgnorable) {
-            return;
-        }
-
-        $uri = isset($_SERVER["REQUEST_URI"]) ? $_SERVER["REQUEST_URI"] : (isset($_SERVER["argv"]) ? implode(" ", $_SERVER["argv"]) : null);
-
-        $message = get_class($exception) . " " . $exception->getCode() . ":\n\n" . $exception->getMessage() . "\n".
-            self::exception_get_dev_message($exception)." in ".
-            $exception->getFile() . " on line ".$exception->getLine().".\n\n Backtrace: " . $exception->getTraceAsString();
-        $currentPreviousException = $exception;
-        while($currentPreviousException = $currentPreviousException->getPrevious()) {
-            $message .= "\nPrevious: " . get_class($currentPreviousException) . " " . $currentPreviousException->getMessage() . "\n" . self::exception_get_dev_message($currentPreviousException)."\n in "
-                . $currentPreviousException->getFile() . " on line ".$currentPreviousException->getLine() . ".\n" . $currentPreviousException->getTraceAsString();
-        }
-        Logger::log($message, Logger::LOG_LEVEL_ERROR);
-
-        $debugMsg = "URL: " . $uri . "\nComposer: " . print_r(GomaENV::getProjectLevelComposerArray(), true) .
-            " Installed: ".print_r(GomaENV::getProjectLevelInstalledComposerArray(), true)."\n\n" . $message;
-        Logger::log($debugMsg, Logger::LOG_LEVEL_DEBUG);
-    }
-
-
-    /**
-     * Gets developer message from exception when method exists.
+     * Extension for ExceptionManager to enable Logging for that.
      *
-     * @param string $exception
-     * @return string
+     * @package    goma/logging
+     * @link    http://goma-cms.org
+     * @license LGPL http://www.gnu.org/copyleft/lesser.html see 'license.txt'
+     * @author    Goma-Team
      */
-    public static function exception_get_dev_message($exception) {
-        if(method_exists($exception, "getDeveloperMessage")) {
-            return "\n\t\t" . str_replace("\n", "\n\t\t", $exception->getDeveloperMessage()) . "\n";
+    class ExceptionLogger implements ExceptionHandler
+    {
+        /**
+         * At this point exceptions can be handled.
+         * Return true if exception was handled and default handling or handling by others should be stopped.
+         *
+         * @param Throwable $exception
+         * @return bool|null
+         */
+        public static function handleException($exception)
+        {
+            if (ExceptionHandler::isDeveloperPresentableException($exception)) {
+                $uri = isset($_SERVER["REQUEST_URI"]) ? $_SERVER["REQUEST_URI"] : (isset($_SERVER["argv"]) ? implode(" ", $_SERVER["argv"]) : null);
+
+                $message = get_class($exception) . " " . $exception->getCode() . ":\n\n" . $exception->getMessage() . "\n" .
+                    self::exception_get_dev_message($exception) . " in " .
+                    $exception->getFile() . " on line " . $exception->getLine() . ".\n\n Backtrace: " . $exception->getTraceAsString();
+                $currentPreviousException = $exception;
+                while ($currentPreviousException = $currentPreviousException->getPrevious()) {
+                    $message .= "\nPrevious: " . get_class($currentPreviousException) . " " . $currentPreviousException->getMessage() . "\n" . self::exception_get_dev_message($currentPreviousException) . "\n in "
+                        . $currentPreviousException->getFile() . " on line " . $currentPreviousException->getLine() . ".\n" . $currentPreviousException->getTraceAsString();
+                }
+                Logger::log($message, Logger::LOG_LEVEL_ERROR);
+
+                $debugMsg = "URL: " . $uri . "\nComposer: " . print_r(GomaENV::getProjectLevelComposerArray(), true) .
+                    " Installed: " . print_r(GomaENV::getProjectLevelInstalledComposerArray(), true) . "\n\n" . $message;
+                Logger::log($debugMsg, Logger::LOG_LEVEL_DEBUG);
+            }
         }
 
-        return "";
+        /**
+         * Ignorable exceptions are exceptions, which are not leading to a crash of the system, default: false
+         *
+         * Return null if no decision can be made.
+         * Return boolean true or false to decide if ignorable or not.
+         *
+         * @param Throwable $exception
+         * @return bool|null
+         */
+        public static function isIgnorableException($exception)
+        {
+            return null;
+        }
+
+        /**
+         * Developer presentable exceptions are exceptions, which will be printed in development mode even if ignorable.
+         * Return null if no decision can be made.
+         * Return boolean true or false to decide if developer-presentable or not.
+         *
+         * @param Throwable $exception
+         * @return bool|null
+         */
+        public static function isDeveloperPresentableException($exception)
+        {
+            return null;
+        }
     }
 }

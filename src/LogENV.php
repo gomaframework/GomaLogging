@@ -29,5 +29,5 @@ if(file_put_contents(ROOT . LOG_FOLDER . "/write.test", "") !== false) {
 }
 
 if(class_exists(ExceptionManager::class)) {
-    ExceptionManager::registerExceptionHandler(array(ExceptionLogger::class, "logException"));
+    ExceptionManager::registerExceptionHandler(ExceptionLogger::class);
 }
