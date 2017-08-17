@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "4c826d1cd86c08dd9804e27077f6b043",
+    "content-hash": "a95836bb2acb41017a167c1867db9b0a",
     "packages": [
         {
             "name": "goma/goma-env",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gomaframework/Goma-ENV.git",
-                "reference": "5e8461674b81ed9f91a1cb0e2646bfc51cfad4c3"
+                "reference": "6bade222c605b5ec7c47b51ccb2d684422a26203"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gomaframework/Goma-ENV/zipball/5e8461674b81ed9f91a1cb0e2646bfc51cfad4c3",
-                "reference": "5e8461674b81ed9f91a1cb0e2646bfc51cfad4c3",
+                "url": "https://api.github.com/repos/gomaframework/Goma-ENV/zipball/6bade222c605b5ec7c47b51ccb2d684422a26203",
+                "reference": "6bade222c605b5ec7c47b51ccb2d684422a26203",
                 "shasum": ""
             },
             "require": {
@@ -44,7 +44,7 @@
                 }
             ],
             "description": "Goma ENV provides some basic concepts for PHP applications: Constants about FileSystem, central storage directory, cache directory as well as functions to get infos about the current environment.",
-            "time": "2017-08-13 23:49:59"
+            "time": "2017-08-16 16:04:35"
         },
         {
             "name": "goma/goma-test-core",
@@ -87,7 +87,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "goma/goma-env": 20
+        "goma/goma-env": 20,
+        "goma/goma-test-core": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
