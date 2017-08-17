@@ -1,8 +1,22 @@
-Goma Unit-Test Core
+Goma Logging
 =======
 
-GomaUnitTest is a wrapper class to support PHP 5 and PHP 7 for tests. In addition it gives some helper asserts.
+GomaLogging provides logging functionality. 
 
-This project belongs to the Goma Framework. See [Project Homepage](https://goma-cms.org).
+Methods
+--
+Logger::log($logString, $level) - Logs information, possible levels:
+* Logger::LOG_LEVEL_LOG
+* Logger::LOG_LEVEL_ERROR
+* Logger::LOG_LEVEL_DEBUG
+* Logger::LOG_LEVEL_PROFILE
+* Logger::LOG_LEVEL_SLOW_QUERY
 
-License: LGPLv3 see [license.txt](license.txt)
+Levels can also be used together, for example:
+<code>
+Logger::log("My Log Message", Logger::LOG_LEVEL_DEBUG | Logger::LOG_LEVEL_LOG)
+</code>
+
+Configuration via composer.json
+--
+* goma_log_folder: define own custom log-folder name. Default: logs
