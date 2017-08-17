@@ -103,7 +103,7 @@ class Logger
      */
     protected static function getLogFile($folder, $noAppend = false) {
         if(!isset(self::$logCache[$folder])) {
-            $logFolder = ROOT . CURRENT_PROJECT . "/" . LOG_FOLDER . "/" . $folder . "/" . date("m-d-y") . "/";
+            $logFolder = ROOT . GOMA_DATADIR . "/" . LOG_FOLDER . "/" . $folder . "/" . date("m-d-y") . "/";
 
             if (!is_dir($logFolder)) {
                 if (!mkdir($logFolder, 0777, true)) {
