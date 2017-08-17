@@ -19,6 +19,6 @@
     "psr-4": {
       "Goma\\Logging\\": "src/"
     },
-    "files": ["LogENV.php"]
+    "files": ["src/LogENV.php"]
   }
 }
