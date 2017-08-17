@@ -9,7 +9,9 @@ use Throwable;
 defined("IN_GOMA") or die();
 
 if(!interface_exists(ExceptionHandler::class)) {
-    interface ExceptionHandler {}
+    interface LoggingExceptionHandler {}
+} else {
+    interface LoggingExceptionHandler extends ExceptionHandler {}
 }
 
 /**
@@ -20,7 +22,7 @@ if(!interface_exists(ExceptionHandler::class)) {
  * @license LGPL http://www.gnu.org/copyleft/lesser.html see 'license.txt'
  * @author    Goma-Team
  */
-class ExceptionLogger implements ExceptionHandler
+class ExceptionLogger implements LoggingExceptionHandler
 {
     /**
      * Wrapper for isDeveloperPresentable.
