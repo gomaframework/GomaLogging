@@ -90,7 +90,7 @@ class Logger
     protected static function putLogFile($logFile, $info) {
         touch($logFile);
 
-        if(!@file_put_contents($logFile, date("Y-m-d H:i:s") . ': ' . $info . "\n\n", null) ||
+        if(!@file_put_contents($logFile, date("Y-m-d H:i:s") . ': ' . $info . "\n\n", FILE_APPEND) ||
             !@chmod($logFile, 0777)) {
             throw new \LogicException("LOG_FOLDER should be writable. Could not write log-entry.");
         }
@@ -116,7 +116,7 @@ class Logger
             $noAppendFileName = $noAppend ? date("H_i_s") . "_" : "";
             $file = $logFolder . $noAppendFileName . "1.log";
             $i = 1;
-            while (file_exists($folder . $i . ".log") && ($noAppend || filesize($file) > static::$fileSizeLimit)) {
+            while (file_exists($logFolder . $i . ".log") && ($noAppend || filesize($file) > static::$fileSizeLimit)) {
                 $i++;
                 $file = $logFolder . $noAppendFileName . "_" . $i . ".log";
             }
