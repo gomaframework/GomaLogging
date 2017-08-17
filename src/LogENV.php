@@ -2,6 +2,7 @@
 
 use Goma\ENV\GomaENV;
 use Goma\Error\ExceptionManager;
+use Goma\Logging\ExceptionLogger;
 
 defined("IN_GOMA") or die();
 
