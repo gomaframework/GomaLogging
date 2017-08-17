@@ -116,9 +116,9 @@ class Logger
             $noAppendFileName = $noAppend ? date("H_i_s") . "_" : "";
             $file = $logFolder . $noAppendFileName . "1.log";
             $i = 1;
-            while (file_exists($logFolder . $i . ".log") && ($noAppend || filesize($file) > static::$fileSizeLimit)) {
+            while (file_exists($logFolder . $noAppendFileName . $i . ".log") && ($noAppend || filesize($file) > static::$fileSizeLimit)) {
                 $i++;
-                $file = $logFolder . $noAppendFileName . "_" . $i . ".log";
+                $file = $logFolder . $noAppendFileName . $i . ".log";
             }
 
             self::$logCache[$folder . date("mdy_h")] = $file;
