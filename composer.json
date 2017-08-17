@@ -12,11 +12,13 @@
   "minimum-stability": "dev",
   "require": {
     "php": ">=5.5.0",
-    "goma/goma-env": "dev-master"
+    "goma/goma-env": "dev-master",
+    "goma/goma-test-core": "dev-master"
   },
   "autoload": {
     "psr-4": {
-      "": "src/"
-    }
+      "Goma\\Logging\\": "src/"
+    },
+    "files": ["LogENV.php"]
   }
 }
