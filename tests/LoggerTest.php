@@ -81,6 +81,27 @@ class LoggerTest extends \GomaUnitTest
     }
 
     /**
+     * Tests if profile-logging creates 2 files for two logs. . Log-Level = LOG_LEVEL_PROFILE
+     */
+    public function test2ProfileLog() {
+        $expectedFile = GomaENV::getDataDirectory() . LOG_FOLDER . "/profile/" . date("m-d-y") . "/".date("H_i_s")."_1.log";
+        if(is_file($expectedFile)) {
+            unlink($expectedFile);
+        }
+
+        $expectedFile2 = GomaENV::getDataDirectory() . LOG_FOLDER . "/profile/" . date("m-d-y") . "/".date("H_i_s")."_2.log";
+        if(is_file($expectedFile2)) {
+            unlink($expectedFile2);
+        }
+
+        Logger::log("Test", Logger::LOG_LEVEL_PROFILE);
+        Logger::log("Test2", Logger::LOG_LEVEL_PROFILE);
+
+        $this->assertTrue(is_file($expectedFile));
+        $this->assertTrue(is_file($expectedFile2));
+    }
+
+    /**
      * Tests if debug-logging creates file. . Log-Level = LOG_LEVEL_DEBUG
      */
     public function testDebugLog() {
