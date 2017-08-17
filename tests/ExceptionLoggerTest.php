@@ -10,19 +10,20 @@ defined("IN_GOMA") or die();
 /**
  * Tests ExceptionLogger-Class.
  *
- * @package	goma/logging
- * @link 	http://goma-cms.org
+ * @package    goma/logging
+ * @link    http://goma-cms.org
  * @license LGPL http://www.gnu.org/copyleft/lesser.html see 'license.txt'
- * @author 	Goma-Team
+ * @author    Goma-Team
  */
 class ExceptionLoggerTest extends \GomaUnitTest
 {
     /**
      * Tests if logging of an not developer presentable exception is not writing a file.
      */
-    public function testIsNotDeveloperPresentable() {
-        $expectedFile = GomaENV::getDataDirectory() . LOG_FOLDER . "/debug/" . date("m-d-y") . "/".date("H_i_s")."_1.log";
-        if(is_file($expectedFile)) {
+    public function testIsNotDeveloperPresentable()
+    {
+        $expectedFile = GomaENV::getDataDirectory() . LOG_FOLDER . "/debug/" . date("m-d-y") . "/" . date("H_i_s") . "_1.log";
+        if (is_file($expectedFile)) {
             unlink($expectedFile);
         }
 
@@ -36,9 +37,10 @@ class ExceptionLoggerTest extends \GomaUnitTest
     /**
      * Tests logging of an exception is writing a file with exception message.
      */
-    public function testLogsException() {
-        $expectedFile = GomaENV::getDataDirectory() . LOG_FOLDER . "/debug/" . date("m-d-y") . "/".date("H_i_s")."_1.log";
-        if(is_file($expectedFile)) {
+    public function testLogsException()
+    {
+        $expectedFile = GomaENV::getDataDirectory() . LOG_FOLDER . "/debug/" . date("m-d-y") . "/" . date("H_i_s") . "_1.log";
+        if (is_file($expectedFile)) {
             unlink($expectedFile);
         }
 

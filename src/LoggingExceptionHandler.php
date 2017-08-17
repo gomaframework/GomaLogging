@@ -4,7 +4,7 @@ namespace Goma\Logging;
 
 use Goma\Error\ExceptionHandler;
 
-defined("IN_GOMA") OR die();)
+defined("IN_GOMA") OR die();
 
 /**
  * Used for compatibility with GomaErrorHandling.
@@ -14,8 +14,12 @@ defined("IN_GOMA") OR die();)
  * @license LGPL http://www.gnu.org/copyleft/lesser.html see 'license.txt'
  * @author    Goma-Team
  */
-if(!interface_exists(ExceptionHandler::class)) {
-    interface LoggingExceptionHandler {}
+if (!interface_exists(ExceptionHandler::class)) {
+    interface LoggingExceptionHandler
+    {
+    }
 } else {
-    interface LoggingExceptionHandler extends ExceptionHandler {}
+    interface LoggingExceptionHandler extends ExceptionHandler
+    {
+    }
 }

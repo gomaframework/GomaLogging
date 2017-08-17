@@ -25,7 +25,8 @@ class ExceptionLogger implements LoggingExceptionHandler
      * @param Throwable $exception
      * @return bool
      */
-    protected static function isDeveloperPresentable($exception) {
+    protected static function isDeveloperPresentable($exception)
+    {
         if(class_exists(ExceptionHandler::class)) {
             return ExceptionHandler::isDeveloperPresentableException($exception);
         }
