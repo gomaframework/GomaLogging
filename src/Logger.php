@@ -104,7 +104,7 @@ class Logger
      * @return mixed
      */
     protected static function getLogFile($folder, $noAppend = false) {
-        if(!isset(self::$logCache[$folder])) {
+        if(!isset(self::$logCache[$folder . date("mdy_h")])) {
             $logFolder = GomaENV::getDataDirectory() . LOG_FOLDER . "/" . $folder . "/" . date("m-d-y") . "/";
 
             if (!is_dir($logFolder)) {
@@ -121,9 +121,9 @@ class Logger
                 $file = $logFolder . $noAppendFileName . "_" . $i . ".log";
             }
 
-            self::$logCache[$folder] = $file;
+            self::$logCache[$folder . date("mdy_h")] = $file;
         }
 
-        return self::$logCache[$folder];
+        return self::$logCache[$folder . date("mdy_h")];
     }
 }
