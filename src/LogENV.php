@@ -17,13 +17,13 @@ defined("IN_GOMA") or die();
 
 define("LOG_FOLDER", isset(GomaENV::getProjectLevelComposerArray()["goma_log_folder"]) ? GomaENV::getProjectLevelComposerArray()["goma_log_folder"] : "logs");
 
-if(!is_dir(ROOT . LOG_FOLDER)) {
-    mkdir(ROOT . LOG_FOLDER);
+if(!is_dir(GomaENV::getDataDirectory() . LOG_FOLDER)) {
+    mkdir(GomaENV::getDataDirectory() . LOG_FOLDER);
 }
 
 // write tests
-if(file_put_contents(ROOT . LOG_FOLDER . "/write.test", "") !== false) {
-    @unlink(ROOT . LOG_FOLDER . "/write.test");
+if(file_put_contents(GomaENV::getDataDirectory() . LOG_FOLDER . "/write.test", "") !== false) {
+    @unlink(GomaENV::getDataDirectory() . LOG_FOLDER . "/write.test");
 } else {
     throw new Exception("Write-Test failed. Please allow write at /" . GOMA_DATADIR);
 }
