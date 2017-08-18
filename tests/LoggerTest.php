@@ -25,6 +25,13 @@ class LoggerTest extends \GomaUnitTest
     }
 
     /**
+     * tests if folder does not exist in ROOT.
+     */
+    public function testFolderInRootDoesNotExist() {
+        $this->assertFalse(is_dir(ROOT . LOG_FOLDER));
+    }
+
+    /**
      * Tests if logging creates file. Log-Level = LOG_LEVEL_LOG
      */
     public function testLog() {
