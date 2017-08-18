@@ -21,7 +21,7 @@ class LoggerTest extends \GomaUnitTest
      * tests if folder exists.
      */
     public function testFolderExists() {
-        $this->assertTrue(is_dir(ROOT . LOG_FOLDER));
+        $this->assertTrue(is_dir(GomaENV::getDataDirectory() . LOG_FOLDER));
     }
 
     /**

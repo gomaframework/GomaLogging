@@ -19,4 +19,4 @@ Logger::log("My Log Message", Logger::LOG_LEVEL_DEBUG | Logger::LOG_LEVEL_LOG)
 
 Configuration via composer.json
 --
-* goma_log_folder: define own custom log-folder name. Default: logs
+* goma_log_folder: define own custom log-folder name in goma data directory. Default: logs
