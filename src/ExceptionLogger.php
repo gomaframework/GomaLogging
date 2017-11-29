@@ -43,22 +43,26 @@ class ExceptionLogger implements LoggingExceptionHandler
      */
     public static function handleException($exception)
     {
+        $message = get_class($exception) . " " . $exception->getCode() . ":\n\n" . $exception->getMessage() . "\n" .
+            self::exception_get_dev_message($exception) . " in " .
+            $exception->getFile() . " on line " . $exception->getLine() . ".\n\n Backtrace: " . $exception->getTraceAsString();
+
+        $currentPreviousException = $exception;
+        while ($currentPreviousException = $currentPreviousException->getPrevious()) {
+            $message .= "\nPrevious: " . get_class($currentPreviousException) . " " . $currentPreviousException->getMessage() . "\n" . self::exception_get_dev_message($currentPreviousException) . "\n in "
+                . $currentPreviousException->getFile() . " on line " . $currentPreviousException->getLine() . ".\n" . $currentPreviousException->getTraceAsString();
+        }
+
         if (self::isDeveloperPresentable($exception)) {
             $uri = isset($_SERVER["REQUEST_URI"]) ? $_SERVER["REQUEST_URI"] : (isset($_SERVER["argv"]) ? implode(" ", $_SERVER["argv"]) : null);
-
-            $message = get_class($exception) . " " . $exception->getCode() . ":\n\n" . $exception->getMessage() . "\n" .
-                self::exception_get_dev_message($exception) . " in " .
-                $exception->getFile() . " on line " . $exception->getLine() . ".\n\n Backtrace: " . $exception->getTraceAsString();
-            $currentPreviousException = $exception;
-            while ($currentPreviousException = $currentPreviousException->getPrevious()) {
-                $message .= "\nPrevious: " . get_class($currentPreviousException) . " " . $currentPreviousException->getMessage() . "\n" . self::exception_get_dev_message($currentPreviousException) . "\n in "
-                    . $currentPreviousException->getFile() . " on line " . $currentPreviousException->getLine() . ".\n" . $currentPreviousException->getTraceAsString();
-            }
+            
             Logger::log($message, Logger::LOG_LEVEL_ERROR);
 
-            $debugMsg = "URL: " . $uri . "\nComposer: " . print_r(GomaENV::getProjectLevelComposerArray(), true) .
-                " Installed: " . print_r(GomaENV::getProjectLevelInstalledComposerArray(), true) . "\n\n" . $message;
+            $debugMsg = $message . "\n\n\n" . "URL: " . $uri . "\nComposer: " . print_r(GomaENV::getProjectLevelComposerArray(), true) .
+                " Installed: " . print_r(GomaENV::getProjectLevelInstalledComposerArray(), true) . "\n\n";
             Logger::log($debugMsg, Logger::LOG_LEVEL_DEBUG);
+        } else {
+            Logger::log($message, Logger::LOG_LEVEL_LOG);
         }
     }
 
