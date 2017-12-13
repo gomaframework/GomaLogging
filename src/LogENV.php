@@ -28,6 +28,10 @@ if(file_put_contents(GomaENV::getDataDirectory() . LOG_FOLDER . "/write.test", "
     throw new Exception("Write-Test failed. Please allow write at /" . GOMA_DATADIR);
 }
 
+if(!file_exists(GomaENV::getDataDirectory() . LOG_FOLDER . "/.htaccess")) {
+    file_put_contents(GomaENV::getDataDirectory() . LOG_FOLDER . "/.htaccess", "deny from all");
+}
+
 if(class_exists(ExceptionManager::class)) {
     ExceptionManager::registerExceptionHandler(ExceptionLogger::class);
 }

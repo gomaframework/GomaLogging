@@ -55,7 +55,7 @@ class ExceptionLogger implements LoggingExceptionHandler
 
         if (self::isDeveloperPresentable($exception)) {
             $uri = isset($_SERVER["REQUEST_URI"]) ? $_SERVER["REQUEST_URI"] : (isset($_SERVER["argv"]) ? implode(" ", $_SERVER["argv"]) : null);
-            
+
             Logger::log($message, Logger::LOG_LEVEL_ERROR);
 
             $debugMsg = $message . "\n\n\n" . "URL: " . $uri . "\nComposer: " . print_r(GomaENV::getProjectLevelComposerArray(), true) .
