@@ -58,7 +58,11 @@ class ExceptionLogger implements LoggingExceptionHandler
 
             Logger::log($message, Logger::LOG_LEVEL_ERROR);
 
-            $debugMsg = $message . "\n\n\n" . "URL: " . $uri . "\nComposer: " . print_r(GomaENV::getProjectLevelComposerArray(), true) .
+            $debugMsg = $message . "\n\n\n" . "URL: " . $uri . " \nPOST: ".print_r($_POST, true).
+                "GET: " . print_r($_GET, true) .
+                "SERVER: " . print_r($_SERVER, true) .
+                "HTTP: " . print_r(getallheaders(), true) .
+                "\nComposer: " . print_r(GomaENV::getProjectLevelComposerArray(), true) .
                 " Installed: " . print_r(GomaENV::getProjectLevelInstalledComposerArray(), true) . "\n\n";
             Logger::log($debugMsg, Logger::LOG_LEVEL_DEBUG);
         } else {
